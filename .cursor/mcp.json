@@ -4,6 +4,9 @@
       "command": "npx",
       "args": ["@przeprogramowani/10x-mvp-tracker"],
       "transport": "stdio"
+    },
+    "10x-rules": {
+      "url": "https://10x-rules-mcp-server.przeprogramowani.workers.dev/sse"
     }
   }
 }
