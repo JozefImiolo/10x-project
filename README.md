@@ -1,6 +1,6 @@
-# 10x Astro Starter
+# MentorConnect
 
-A modern, opinionated starter template for building fast, accessible, and AI-friendly web applications.
+Platforma łącząca użytkowników z ekspertami i mentorami z różnych dziedzin, umożliwiająca szybki dostęp do pomocy, weryfikację pomysłów i mentoring w rozwiązywaniu problemów.
 
 ## Tech Stack
 
@@ -19,8 +19,8 @@ A modern, opinionated starter template for building fast, accessible, and AI-fri
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/przeprogramowani/10x-astro-starter.git
-cd 10x-astro-starter
+git clone https://github.com/JozefImiolo/mentorconnect.git
+cd mentorconnect
 ```
 
 2. Install dependencies:
