@@ -18,6 +18,10 @@ Stworzenie bezpiecznej, łatwej w użyciu platformy, która umożliwia:
 
 Platforma ma być uniwersalnym miejscem, gdzie każdy może znaleźć eksperta w dowolnej dziedzinie - od porady prawnej, przez ocenę dokumentu, mentoring muzyczny, po zabezpieczenie aplikacji webowej. W przyszłości platforma będzie wspierać płatne sesje, ale w MVP wszystkie sesje są darmowe.
 
+### Zasady projektowe
+- **Uniwersalność i Prostota:** Interfejs użytkownika (UI) powinien być intuicyjny, prosty w obsłudze i dostępny dla szerokiego grona odbiorców, niezależnie od ich wieku czy biegłości technicznej.
+- **Zachęta do Rozwoju:** Projekt wizualny i sposób komunikacji platformy mają aktywnie motywować użytkowników do nauki, weryfikowania pomysłów i korzystania z wiedzy ekspertów.
+
 ### Stack technologiczny
 
 - Frontend: Astro 5, React 19, TypeScript, Tailwind CSS 4
@@ -149,9 +153,9 @@ Platforma ma umożliwić szybkie połączenie z odpowiednim ekspertem, aby użyt
    - Komunikacja odbywa się przez email/telefon (dane kontaktowe dostępne po rezerwacji)
    - Chat będzie dodany w późniejszych iteracjach
 
-6. Powiadomienia push/email
-   - Podstawowe powiadomienia w aplikacji (opcjonalnie)
-   - Email notifications będą dodane później
+6. Zaawansowane powiadomienia
+   - Rozbudowane powiadomienia w aplikacji i e-mail (np. przypomnienia o sesjach, newslettery) są poza zakresem MVP.
+   - Podstawowe e-maile transakcyjne (potwierdzenie rezerwacji, informacja o anulowaniu) są w zakresie MVP, aby umożliwić kluczową komunikację.
 
 7. Panel administracyjny
    - Zarządzanie kategoriami przez seed data w bazie
@@ -196,6 +200,34 @@ Platforma ma umożliwić szybkie połączenie z odpowiednim ekspertem, aby użyt
    - Testy manualne jako uzupełnienie testów automatycznych
 
 ## 5. Historyjki użytkowników
+
+### Priorytetyzacja historyjek (MoSCoW)
+
+Poniższa lista określa priorytety dla poszczególnych historyjek w ramach MVP.
+
+**MUST-HAVE (Krytyczne dla MVP):**
+*   `US-001`: Rejestracja
+*   `US-002`: Logowanie
+*   `US-003`: Wylogowanie
+*   `US-005`: Tworzenie profilu eksperta
+*   `US-006`: Edycja profilu eksperta
+*   `US-010`: Wyświetlanie szczegółów profilu eksperta
+*   `US-011`: Rezerwacja sesji
+*   `US-012`: Wyświetlanie moich rezerwacji (użytkownik)
+*   `US-013`: Wyświetlanie rezerwacji do mnie (ekspert)
+*   `US-016`: Walidacja dostępności terminu
+*   `US-017`: Wyświetlanie dostępnych slotów
+*   `US-018`: Definiowanie dostępności przez eksperta
+
+**SHOULD-HAVE (Ważne, ale nie krytyczne):**
+*   `US-004`: Odzyskiwanie hasła
+*   `US-007`: Przeglądanie listy ekspertów
+*   `US-008`: Wyszukiwanie ekspertów
+*   `US-009`: Filtrowanie po kategoriach
+*   `US-014`: Anulowanie rezerwacji
+
+**COULD-HAVE ("Miło mieć"):**
+*   `US-015`: Przełączanie między widokiem użytkownika a eksperta
 
 ### US-001: Rejestracja nowego użytkownika
 
@@ -307,13 +339,11 @@ Kryteria akceptacji:
 
 Jako użytkownik chcę filtrować ekspertów po kategoriach, aby znaleźć ekspertów w konkretnej dziedzinie.
 
-Opis: Użytkownik wybiera kategorię z drzewa kategorii, lista ekspertów jest filtrowana do ekspertów w tej kategorii.
+Opis: Użytkownik wybiera kategorię z listy, a lista ekspertów jest filtrowana, aby pokazać tylko tych z wybranej kategorii.
 
 Kryteria akceptacji:
-- Drzewo kategorii jest dostępne na stronie z listą ekspertów
-- Kategorie główne są rozwijalne (pokazują podkategorie)
+- Lista kategorii jest dostępna na stronie z listą ekspertów
 - Wybór kategorii filtruje listę ekspertów
-- Możliwość wyboru wielu kategorii jednocześnie
 - Możliwość wyczyszczenia filtrów
 
 ### US-010: Wyświetlanie szczegółów profilu eksperta
@@ -346,8 +376,8 @@ Kryteria akceptacji:
 - Walidacja czy termin nie jest w przeszłości
 - Walidacja czy termin jest dostępny (nie koliduje z innymi rezerwacjami)
 - Po potwierdzeniu rezerwacja jest zapisana
-- Użytkownik otrzymuje potwierdzenie rezerwacji z danymi kontaktowymi eksperta (email i telefon)
-- Ekspert otrzymuje potwierdzenie rezerwacji z danymi kontaktowymi użytkownika (email i telefon)
+- System wysyła transakcyjny e-mail z potwierdzeniem rezerwacji i danymi kontaktowymi do użytkownika.
+- System wysyła transakcyjny e-mail z informacją o rezerwacji i danymi kontaktowymi do eksperta.
 - Rezerwacja pojawia się w dashboardzie obu stron
 
 ### US-012: Wyświetlanie moich rezerwacji (użytkownik)
@@ -413,27 +443,51 @@ Kryteria akceptacji:
 
 Jako system chcę sprawdzać dostępność terminu przed zapisaniem rezerwacji, aby uniknąć konfliktów czasowych.
 
-Opis: Gdy użytkownik próbuje zarezerwować sesję, system sprawdza czy ekspert nie ma już rezerwacji w tym terminie.
+Opis: Gdy użytkownik próbuje zarezerwować sesję, system sprawdza, czy wybrany termin jest zgodny ze zdefiniowanym przez eksperta szablonem dostępności i czy nie jest już zajęty przez inną rezerwację.
 
 Kryteria akceptacji:
-- System sprawdza dostępność terminu przed zapisaniem rezerwacji
-- Jeśli termin jest zajęty, wyświetlany jest komunikat błędu
-- Użytkownik może wybrać inny termin
-- System nie sugeruje alternatywnych terminów w MVP (użytkownik wybiera inny termin ręcznie)
+- System sprawdza dostępność terminu przed zapisaniem rezerwacji (czy jest w szablonie eksperta i czy nie jest już zajęty).
+- Jeśli termin jest zajęty lub niedostępny, wyświetlany jest komunikat błędu.
+- Użytkownik może wybrać inny termin.
+- System nie sugeruje alternatywnych terminów w MVP (użytkownik wybiera inny termin ręcznie).
 
 ### US-017: Wyświetlanie dostępnych slotów czasowych
 
 Jako użytkownik chcę widzieć dostępne sloty czasowe eksperta, aby wybrać odpowiedni termin.
 
-Opis: Gdy użytkownik wybiera datę w kalendarzu rezerwacji, system pokazuje dostępne godziny dla tego dnia.
+Opis: Gdy użytkownik wybiera datę w kalendarzu rezerwacji, system pokazuje dostępne godziny dla tego dnia, bazując na tygodniowym szablonie dostępności zdefiniowanym przez eksperta oraz na już istniejących rezerwacjach.
 
 Kryteria akceptacji:
-- Po wyborze daty wyświetlane są dostępne sloty czasowe
-- Zajęte sloty są wyłączone lub oznaczone jako niedostępne
-- Użytkownik może wybrać tylko dostępny slot
-- Domyślne sloty to np. co godzinę od 9:00 do 18:00 (można skonfigurować)
+- Po wyborze daty, system sprawdza, jaki to dzień tygodnia (np. wtorek).
+- System pobiera zdefiniowane przez eksperta dostępne sloty dla tego dnia tygodnia.
+- System sprawdza, które z tych slotów na wybraną, konkretną datę są już zajęte przez inne rezerwacje.
+- Użytkownikowi wyświetlana jest finalna lista dostępnych slotów (dostępne w szablonie MINUS już zarezerwowane).
+- Zajęte sloty są niewidoczne lub nieaktywne.
+- Użytkownik może wybrać tylko dostępny slot.
+
+### US-018: Definiowanie tygodniowego szablonu dostępności przez eksperta
+
+Jako ekspert, chcę zdefiniować mój standardowy tygodniowy harmonogram dostępności, aby użytkownicy mogli rezerwować sesje tylko w godzinach, w których jestem dostępny.
+
+Opis: W moim profilu eksperta mam dostęp do sekcji "Zarządzanie dostępnością". Widzę tam szablon tygodnia (poniedziałek-niedziela) z podziałem na godzinowe sloty (np. od 8:00 do 20:00). Mogę zaznaczyć (np. checkboxami), w których godzinach jestem typowo dostępny w każdym dniu tygodnia. System użyje tego szablonu do pokazywania mojej dostępności w kalendarzu rezerwacji.
+
+Kryteria akceptacji:
+- W profilu eksperta istnieje sekcja do zarządzania dostępnością.
+- Interfejs wyświetla 7 dni tygodnia.
+- Dla każdego dnia dostępne są do zaznaczenia godzinowe sloty (np. 9:00, 10:00, 11:00...).
+- Ekspert może zaznaczyć i odznaczyć dowolny slot.
+- Zmiany są zapisywane po kliknięciu przycisku "Zapisz".
+- System przechowuje szablon dostępności dla każdego eksperta.
+- Ten szablon jest używany jako podstawa do wyświetlania dostępnych terminów w formularzu rezerwacji.
 
 ## 6. Metryki sukcesu
+
+Poniższe metryki służą do oceny powodzenia MVP. Dzielą się na dwie główne kategorie:
+
+*   **Metryki Jakości Produktu (np. techniczne, funkcjonalne):** Mierzą, czy produkt został zbudowany poprawnie, zgodnie z wymaganiami i standardami jakości. Są one w dużej mierze zależne od pracy zespołu deweloperskiego.
+*   **Metryki Przyjęcia Rynkowego (np. użytkowników, ekspertów, biznesowe):** Mierzą, czy produkt zdobywa zainteresowanie i jest używany. Ich osiągnięcie zależy nie tylko od jakości produktu, ale również od działań marketingowych, strategii wprowadzenia na rynek i ogólnego zapotrzebowania.
+
+Taki podział pomaga oddzielić ocenę jakości wykonania produktu od oceny jego sukcesu rynkowego.
 
 ### 6.1. Metryki użytkowników
 
