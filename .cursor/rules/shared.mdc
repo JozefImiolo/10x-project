@@ -3,9 +3,9 @@ description:
 globs: 
 alwaysApply: true
 ---
-# AI Rules for {app-name}
+# AI Rules for MentorConnect
 
-{project-description}
+Platforma łącząca użytkowników z ekspertami i mentorami z różnych dziedzin, umożliwiająca szybki dostęp do pomocy, weryfikację pomysłów i mentoring w rozwiązywaniu problemów.
 
 ## Tech Stack
 
